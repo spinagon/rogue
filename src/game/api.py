@@ -17,6 +17,7 @@ class Tile(Enum):
     ITEM_ELIXIR = "!"
     ITEM_SCROLL = "%"
     ITEM_FOOD = "*"
+    ITEM_UNKNOWN = "?"
     STAIR = ">"
     MONSTER_ZOMBIE = "z"
     MONSTER_VAMPIRE = "v"

@@ -1,0 +1,2 @@
+LEVEL_WIDTH: int = 66
+LEVEL_HEIGHT: int = 22
