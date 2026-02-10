@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from enum import Enum, auto
+from enum import Enum
 from typing import Iterable
 
 
@@ -17,7 +17,7 @@ class Tile(Enum):
     ITEM_ELIXIR = "!"
     ITEM_SCROLL = "%"
     ITEM_FOOD = "*"
-    ITEM_UNKNOWN = "?"
+    UNKNOWN = "?"
     STAIR = ">"
     MONSTER_ZOMBIE = "z"
     MONSTER_VAMPIRE = "v"

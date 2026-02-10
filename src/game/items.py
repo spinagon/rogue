@@ -1,25 +1,24 @@
-from dataclasses import dataclass
 import random
+from dataclasses import dataclass
 from typing import ClassVar
 
 from game.api import Tile
+from game.base import GameObject
 
 
 @dataclass
-class Item:
+class Item(GameObject):
     hp: int = 0
     max_hp: int = 0
     dex: int = 0
     str_: int = 0
     value: int = 0
     name: str = "Generic item"
-    x: int = 0
-    y: int = 0
-    tile: Tile = Tile.ITEM_UNKNOWN
 
 
 @dataclass
 class Weapon(Item):
+    tile: Tile = Tile.ITEM_WEAPON
     names: ClassVar[list[str]] = [
         "mace",
         "sword",
@@ -28,9 +27,6 @@ class Weapon(Item):
         "spear",
         "halberd",
     ]
-
-    def __post_init__(self):
-        self.tile = Tile.ITEM_WEAPON
 
     @classmethod
     def get_random(cls, level):
@@ -49,13 +45,13 @@ class Treasure(Item):
 
 @dataclass
 class Elixir(Item):
-    def __post_init__(self):
-        self.tile = Tile.ITEM_ELIXIR
+    tile: Tile = Tile.ITEM_ELIXIR
 
     @classmethod
     def get_random(cls, level):
         attr = random.choice(["max_hp", "dex", "str_"])
         value = random.randint(1, level)
+        name = ""
         match attr:
             case "max_hp":
                 name = "health"
@@ -66,18 +62,18 @@ class Elixir(Item):
             case "_":
                 raise Exception(f"No such attribute: {attr}")
         name = f"Elixir of {name}"
-        return cls(name=name, **{attr: value})
+        return cls(name=name, **{attr: value})  # type: ignore
 
 
 @dataclass
 class Scroll(Item):
-    def __post_init__(self):
-        self.tile = Tile.ITEM_SCROLL
+    tile: Tile = Tile.ITEM_SCROLL
 
     @classmethod
     def get_random(cls, level):
         attr = random.choice(["max_hp", "dex", "str_"])
         value = random.randint(1, level)
+        name = ""
         match attr:
             case "max_hp":
                 name = "health"
@@ -88,15 +84,13 @@ class Scroll(Item):
             case "_":
                 raise Exception(f"No such attribute: {attr}")
         name = f"Scroll of {name}"
-        return cls(name=name, **{attr: value})
+        return cls(name=name, **{attr: value})  # type: ignore
 
 
 @dataclass
 class Food(Item):
     names: ClassVar[list[str]] = ["Apple", "Milk", "Bread", "Cheese", "Meat", "Potato"]
-
-    def __post_init__(self):
-        self.tile = Tile.ITEM_FOOD
+    tile: Tile = Tile.ITEM_FOOD
 
     @classmethod
     def get_random(cls, level):

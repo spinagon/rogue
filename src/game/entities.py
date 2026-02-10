@@ -1,86 +1,96 @@
+from dataclasses import dataclass
+
 from game import items
 from game.api import Tile
+from game.base import GameObject
 
 
-class Entity:
-    pass
+@dataclass
+class Character(GameObject):
+    tile: Tile = Tile.CHARACTER
+    max_hp: int = 10
+    str = 3
+    dex = 3
+    weapon = items.fist
 
-
-class Character(Entity):
-    def __init__(self):
-        self.tile = Tile.CHARACTER
-        self.max_hp = 10
+    def __post_init__(self, x, y):
+        super().__post_init__(x, y)
         self.hp = self.max_hp
-        self.str = 3
-        self.dex = 3
-        self.weapon = items.fist
-        self.x = 10
-        self.y = 10
-        self.treasure = 0
 
 
-class Monster(Entity):
+@dataclass
+class Monster(GameObject):
     pass
 
 
+@dataclass
 class Zombie(Monster):
-    def __init__(self, level, x, y):
-        self.x = x
-        self.y = y
-        self.tile = Tile.MONSTER_ZOMBIE
-        self.dex = int((3 + level) / 5)
-        self.str = int((3 + level) / 3)
-        self.max_hp = int((3 + level) / 1)
+    level: int = 0
+    tile: Tile = Tile.MONSTER_ZOMBIE
+
+    def __post_init__(self, x, y):
+        super().__post_init__(x, y)
+        self.dex = int((3 + self.level) / 5)
+        self.str = int((3 + self.level) / 3)
+        self.max_hp = int((3 + self.level) / 1)
         self.hostility = 5
-        self.treasure = level
+        self.treasure = self.level
 
 
+@dataclass
 class Vampire(Monster):
-    def __init__(self, level, x, y):
-        self.x = x
-        self.y = y
-        self.tile = Tile.MONSTER_VAMPIRE
-        self.dex = int(3 + level)
-        self.str = int((3 + level) / 3)
-        self.max_hp = int((3 + level) / 5)
+    level: int = 0
+    tile: Tile = Tile.MONSTER_VAMPIRE
+
+    def __post_init__(self, x, y):
+        super().__post_init__(x, y)
+        self.dex = int(3 + self.level)
+        self.str = int((3 + self.level) / 3)
+        self.max_hp = int((3 + self.level) / 5)
         self.hostility = 8
-        self.treasure = level
+        self.treasure = self.level
 
 
+@dataclass
 class Ghost(Monster):
-    def __init__(self, level, x, y):
-        self.x = x
-        self.y = y
-        self.tile = Tile.MONSTER_GHOST
-        self.dex = int((3 + level) / 1)
-        self.str = int((3 + level) / 5)
-        self.max_hp = int((3 + level) / 5)
+    level: int = 0
+    tile: Tile = Tile.MONSTER_GHOST
+
+    def __post_init__(self, x, y):
+        super().__post_init__(x, y)
+        self.dex = int((3 + self.level) / 1)
+        self.str = int((3 + self.level) / 5)
+        self.max_hp = int((3 + self.level) / 5)
         self.hostility = 3
-        self.treasure = level
+        self.treasure = self.level
 
 
+@dataclass
 class Ogre(Monster):
-    def __init__(self, level, x, y):
-        self.x = x
-        self.y = y
-        self.tile = Tile.MONSTER_OGRE
-        self.dex = int((3 + level) / 5)
-        self.str = int((3 + level) * 1.5)
-        self.max_hp = int((3 + level) * 1.5)
+    level: int = 0
+    tile: Tile = Tile.MONSTER_OGRE
+
+    def __post_init__(self, x, y):
+        super().__post_init__(x, y)
+        self.dex = int((3 + self.level) / 5)
+        self.str = int((3 + self.level) * 1.5)
+        self.max_hp = int((3 + self.level) * 1.5)
         self.hostility = 5
-        self.treasure = level
+        self.treasure = self.level
 
 
+@dataclass
 class SnakeMage(Monster):
-    def __init__(self, level, x, y):
-        self.x = x
-        self.y = y
-        self.tile = Tile.MONSTER_SNAKE_MAGE
-        self.dex = int((3 + level) * 1.5)
-        self.str = int((3 + level) / 3)
-        self.max_hp = int((3 + level) / 3)
+    level: int = 0
+    tile: Tile = Tile.MONSTER_SNAKE_MAGE
+
+    def __post_init__(self, x, y):
+        super().__post_init__(x, y)
+        self.dex = int((3 + self.level) * 1.5)
+        self.str = int((3 + self.level) / 3)
+        self.max_hp = int((3 + self.level) / 3)
         self.hostility = 8
-        self.treasure = level
+        self.treasure = self.level
 
 
 monster_types = [Zombie, Vampire, Ghost, Ogre, SnakeMage]

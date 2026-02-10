@@ -54,7 +54,7 @@ class Game:
             tiles=tiles,
             hp=self.player.hp,
             max_hp=self.player.max_hp,
-            treasure=self.player.treasure,
+            treasure=0,
             level=self.level,
         )
 
@@ -71,7 +71,7 @@ class Game:
             room = self.rooms[room_id]
             x = random.randint(room.x0 + 1, room.x1 - 1)
             y = random.randint(room.y0 + 1, room.y1 - 1)
-            monsters.append(monster_type(self.level, x, y))
+            monsters.append(monster_type(level=self.level, x=x, y=y))
         return monsters
 
     def place_items(self):
@@ -94,7 +94,7 @@ class Game:
             room = self.rooms[room_id]
             x = random.randint(room.x0 + 1, room.x1 - 1)
             y = random.randint(room.y0 + 1, room.y1 - 1)
-            new_items.append(item_type.get_random(self.level))
+            new_items.append(item_type.get_random(level=self.level))
             new_items[-1].x = x
             new_items[-1].y = y
         return new_items
