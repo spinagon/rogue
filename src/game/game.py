@@ -1,22 +1,35 @@
 import random
 
 from game.api import Tile, InputEvent, DrawTile, Frame
-from game import entities, items, rooms
+from game import base, entities, items, rooms
+from game.constants import LEVEL_WIDTH, LEVEL_HEIGHT
 
 
 class Level:
-    def __init__(self, depth):
-        self.player = entities.Character()
+    def __init__(self, depth: int, player: entities.Character):
+        self.player = player
         self.depth = depth
-        self.rooms = [rooms.Room(i) for i in range(9)]
-        self.starting_room = random.randint(0, 8)
+        self.map: list[list[base.GameObject]] = [
+            [base.Empty() for _ in range(LEVEL_WIDTH)] for _ in range(LEVEL_HEIGHT)
+        ]
+        self.rooms: list[rooms.Room] = [rooms.Room(i) for i in range(9)]
+        self.starting_room: int = random.randint(0, 8)
         x = (self.rooms[self.starting_room].x0 + self.rooms[self.starting_room].x1) // 2
         y = (self.rooms[self.starting_room].y0 + self.rooms[self.starting_room].y1) // 2
-        self.player.place(x, y)
-        self.items = self.place_items()
-        self.monsters = self.place_monsters()
+        self.place(player, x, y)
+        self.items: list[items.Item] = self.place_items()
+        self.monsters: list[entities.Monster] = self.place_monsters()
 
-    def place_monsters(self):
+    def place(self, obj: entities.GameObject, x=None, y=None):
+        obj.place(x, y)
+        self.map[obj.y][obj.x] = obj
+
+    def move(self, obj: entities.GameObject, x=0, y=0):
+        self.map[obj.y][obj.x] = base.Empty()
+        obj.move(x, y)
+        self.map[obj.y][obj.x] = obj
+
+    def place_monsters(self) -> list[entities.Monster]:
         monsters = []
         n_monsters = self.depth + 2
         to_place = random.choices(
@@ -32,7 +45,7 @@ class Level:
             monsters.append(monster_type(depth=self.depth, x=x, y=y))
         return monsters
 
-    def place_items(self):
+    def place_items(self) -> list[items.Item]:
         new_items = []
         n_items = self.depth + 2
         to_place = random.choices(
@@ -53,24 +66,24 @@ class Level:
             x = random.randint(room.x0 + 1, room.x1 - 1)
             y = random.randint(room.y0 + 1, room.y1 - 1)
             new_items.append(item_type.get_random(level=self.depth))
-            new_items[-1].place(x, y)
+            self.place(new_items[-1], x=x, y=y)
         return new_items
 
 
 class Game:
     def __init__(self):
-        self.level = Level(depth=1)
+        self.level = Level(depth=1, player=entities.Character())
 
     def handle(self, event: InputEvent):
         match event:
             case InputEvent.MOVE_UP:
-                self.level.player.move(y=-1)
+                self.level.move(self.level.player, y=-1)
             case InputEvent.MOVE_DOWN:
-                self.level.player.move(y=1)
+                self.level.move(self.level.player, y=1)
             case InputEvent.MOVE_LEFT:
-                self.level.player.move(x=-1)
+                self.level.move(self.level.player, x=-1)
             case InputEvent.MOVE_RIGHT:
-                self.level.player.move(x=1)
+                self.level.move(self.level.player, x=1)
 
     def frame(self) -> Frame:
         tiles = []

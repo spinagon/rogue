@@ -2,9 +2,11 @@ import random
 
 from game import constants
 
+
 class Room:
     def __init__(self, id: int):
         self.id = id
+        self.discovered = False
         x = (id % 3) * (constants.LEVEL_WIDTH // 3)
         y = (id // 3) * (constants.LEVEL_HEIGHT // 3)
         self.x0 = random.randint(x + 1, x + constants.LEVEL_WIDTH // 3 - 7)

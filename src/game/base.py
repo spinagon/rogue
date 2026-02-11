@@ -19,3 +19,7 @@ class GameObject:
             self.x = x
         if y is not None:
             self.y = y
+
+
+class Empty(GameObject):
+    tile: Tile = Tile.EMPTY

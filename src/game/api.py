@@ -4,6 +4,7 @@ from typing import Iterable
 
 
 class Tile(Enum):
+    EMPTY = " "
     WALL_V = "\u2503"
     WALL_H = "\u2501"
     CORNER_TL = "\u250f"
