@@ -9,88 +9,84 @@ from game.base import GameObject
 class Character(GameObject):
     tile: Tile = Tile.CHARACTER
     max_hp: int = 10
+    hp: int = max_hp
     str = 3
     dex = 3
     weapon = items.fist
 
-    def __post_init__(self, x, y):
-        super().__post_init__(x, y)
-        self.hp = self.max_hp
+    @property
+    def treasure(self):
+        return 0
 
 
 @dataclass
 class Monster(GameObject):
-    pass
+    depth: int = 0
+    hostility: int = 0
+    max_hp: int = 0
+    str: int = 0
+    dex: int = 0
+    treasure: int = 0
 
 
 @dataclass
 class Zombie(Monster):
-    level: int = 0
     tile: Tile = Tile.MONSTER_ZOMBIE
 
-    def __post_init__(self, x, y):
-        super().__post_init__(x, y)
-        self.dex = int((3 + self.level) / 5)
-        self.str = int((3 + self.level) / 3)
-        self.max_hp = int((3 + self.level) / 1)
+    def __post_init__(self):
+        self.dex = int((3 + self.depth) / 5)
+        self.str = int((3 + self.depth) / 3)
+        self.max_hp = int((3 + self.depth) / 1)
         self.hostility = 5
-        self.treasure = self.level
+        self.treasure = self.depth
 
 
 @dataclass
 class Vampire(Monster):
-    level: int = 0
     tile: Tile = Tile.MONSTER_VAMPIRE
 
-    def __post_init__(self, x, y):
-        super().__post_init__(x, y)
-        self.dex = int(3 + self.level)
-        self.str = int((3 + self.level) / 3)
-        self.max_hp = int((3 + self.level) / 5)
+    def __post_init__(self):
+        self.dex = int(3 + self.depth)
+        self.str = int((3 + self.depth) / 3)
+        self.max_hp = int((3 + self.depth) / 5)
         self.hostility = 8
-        self.treasure = self.level
+        self.treasure = self.depth
 
 
 @dataclass
 class Ghost(Monster):
-    level: int = 0
     tile: Tile = Tile.MONSTER_GHOST
 
-    def __post_init__(self, x, y):
-        super().__post_init__(x, y)
-        self.dex = int((3 + self.level) / 1)
-        self.str = int((3 + self.level) / 5)
-        self.max_hp = int((3 + self.level) / 5)
+    def __post_init__(self):
+        self.dex = int((3 + self.depth) / 1)
+        self.str = int((3 + self.depth) / 5)
+        self.max_hp = int((3 + self.depth) / 5)
         self.hostility = 3
-        self.treasure = self.level
+        self.treasure = self.depth
 
 
 @dataclass
 class Ogre(Monster):
-    level: int = 0
     tile: Tile = Tile.MONSTER_OGRE
 
-    def __post_init__(self, x, y):
-        super().__post_init__(x, y)
-        self.dex = int((3 + self.level) / 5)
-        self.str = int((3 + self.level) * 1.5)
-        self.max_hp = int((3 + self.level) * 1.5)
+    def __post_init__(self):
+        self.dex = int((3 + self.depth) / 5)
+        self.str = int((3 + self.depth) * 1.5)
+        self.max_hp = int((3 + self.depth) * 1.5)
         self.hostility = 5
-        self.treasure = self.level
+        self.treasure = self.depth
 
 
 @dataclass
 class SnakeMage(Monster):
-    level: int = 0
     tile: Tile = Tile.MONSTER_SNAKE_MAGE
 
-    def __post_init__(self, x, y):
-        super().__post_init__(x, y)
-        self.dex = int((3 + self.level) * 1.5)
-        self.str = int((3 + self.level) / 3)
-        self.max_hp = int((3 + self.level) / 3)
+    def __post_init__(self):
+        self.dex = int((3 + self.depth) * 1.5)
+        self.str = int((3 + self.depth) / 3)
+        self.max_hp = int((3 + self.depth) / 3)
         self.hostility = 8
-        self.treasure = self.level
+        self.treasure = self.depth
 
 
 monster_types = [Zombie, Vampire, Ghost, Ogre, SnakeMage]
