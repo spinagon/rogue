@@ -3,35 +3,39 @@ from enum import Enum
 from typing import Iterable
 
 
+from enum import Enum, auto
+
+
 class Tile(Enum):
-    EMPTY = " "
-    WALL_V = "\u2503"
-    WALL_H = "\u2501"
-    CORNER_TL = "\u250f"
-    CORNER_TR = "\u2513"
-    CORNER_BL = "\u2517"
-    CORNER_BR = "\u251b"
-    FLOOR = "."
-    CHARACTER = "@"
-    CORRIDOR = "#"
-    ITEM_WEAPON = "/"
-    ITEM_ELIXIR = "!"
-    ITEM_SCROLL = "%"
-    ITEM_FOOD = "*"
-    UNKNOWN = "?"
-    STAIR = ">"
-    MONSTER_ZOMBIE = "z"
-    MONSTER_VAMPIRE = "v"
-    MONSTER_GHOST = "g"
-    MONSTER_OGRE = "o"
-    MONSTER_SNAKE_MAGE = "s"
+    EMPTY = auto()
+    WALL_V = auto()
+    WALL_H = auto()
+    CORNER_TL = auto()
+    CORNER_TR = auto()
+    CORNER_BL = auto()
+    CORNER_BR = auto()
+    FLOOR = auto()
+    CHARACTER = auto()
+    CORRIDOR = auto()
+    ITEM_WEAPON = auto()
+    ITEM_ELIXIR = auto()
+    ITEM_SCROLL = auto()
+    ITEM_FOOD = auto()
+    UNKNOWN = auto()
+    STAIR = auto()
+    MONSTER_ZOMBIE = auto()
+    MONSTER_VAMPIRE = auto()
+    MONSTER_GHOST = auto()
+    MONSTER_OGRE = auto()
+    MONSTER_SNAKE_MAGE = auto()
 
 
 class InputEvent(Enum):
-    MOVE_UP = "w"
-    MOVE_DOWN = "s"
-    MOVE_LEFT = "a"
-    MOVE_RIGHT = "d"
+    MOVE_UP = auto()
+    MOVE_DOWN = auto()
+    MOVE_LEFT = auto()
+    MOVE_RIGHT = auto()
+    QUIT = auto()
 
 
 @dataclass(frozen=True)

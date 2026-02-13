@@ -5,6 +5,7 @@ KEYMAP = {
     "a": InputEvent.MOVE_LEFT,
     "s": InputEvent.MOVE_DOWN,
     "d": InputEvent.MOVE_RIGHT,
+    "q": InputEvent.QUIT,
 }
 
 
