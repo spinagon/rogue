@@ -40,7 +40,7 @@ def init():
 
 
 def draw(stdscr, frame: Frame):
-    stdscr.clear()
+    stdscr.erase()
     for t in frame.tiles:
         char = TILE_MAP.get(t.tile, "?")
         color = TILE_COLORS.get(t.tile, 0)
