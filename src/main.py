@@ -6,9 +6,8 @@ from ui import render
 
 
 def main(stdscr):
-    curses.curs_set(False)
     game = Game()
-    render.init()
+    render.init(stdscr)
     render.draw(stdscr, game.frame())
     while True:
         key = stdscr.getkey()
