@@ -1,22 +1,24 @@
 import curses
 
 from game.game import Game
+from game.constants import LEVEL_HEIGHT, LEVEL_WIDTH
 from ui.input import read_input, InputEvent
 from ui import render
 
 
 def main(stdscr):
     game = Game()
-    render.init(stdscr)
-    render.draw(stdscr, game.frame())
+    win = curses.newwin(LEVEL_HEIGHT + 1, LEVEL_WIDTH, 0, 0)
+    render.init(win)
+    render.draw(win, game.frame())
     while True:
-        key = stdscr.getkey()
+        key = win.getkey()
         event = read_input(key)
         if event == InputEvent.QUIT:
             break
         if event is not None:
             game.handle(event)
-            render.draw(stdscr, game.frame())
+            render.draw(win, game.frame())
 
 
 if __name__ == "__main__":
