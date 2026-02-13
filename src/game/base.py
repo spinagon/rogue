@@ -20,6 +20,10 @@ class GameObject:
         if y is not None:
             self.y = y
 
+    @property
+    def coords(self):
+        return self.x, self.y
+
 
 class Empty(GameObject):
     tile: Tile = Tile.EMPTY

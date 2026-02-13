@@ -40,7 +40,7 @@ def init(stdscr):
     # Do not display cursor
     curses.curs_set(False)
     # Do not move cursor
-    stdscr.leaveok(True)
+    # stdscr.leaveok(True)
 
 
 def draw(stdscr, frame: Frame):

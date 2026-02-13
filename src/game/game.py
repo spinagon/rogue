@@ -85,7 +85,10 @@ class Game:
             case InputEvent.MOVE_RIGHT:
                 self.level.move(self.level.player, x=1)
 
-    def frame(self) -> Frame:
+    def in_room(self, room, x: int, y: int) -> bool:
+        return room.x0 <= x <= room.x1 and room.y0 <= y <= room.y1
+
+    def draw_rooms(self) -> list[DrawTile]:
         tiles = []
         for room in self.level.rooms:
             for x in range(room.x0, room.x1 + 1):
@@ -98,9 +101,15 @@ class Game:
             tiles.append(DrawTile(room.x0, room.y1, Tile.CORNER_BL))
             tiles.append(DrawTile(room.x1, room.y0, Tile.CORNER_TR))
             tiles.append(DrawTile(room.x1, room.y1, Tile.CORNER_BR))
-            for x in range(room.x0 + 1, room.x1):
-                for y in range(room.y0 + 1, room.y1):
-                    tiles.append(DrawTile(x, y, Tile.FLOOR))
+            if self.in_room(room, *self.level.player.coords):
+                for x in range(room.x0 + 1, room.x1):
+                    for y in range(room.y0 + 1, room.y1):
+                        tiles.append(DrawTile(x, y, Tile.FLOOR))
+        return tiles
+
+    def frame(self) -> Frame:
+        tiles = []
+        tiles.extend(self.draw_rooms())
         tiles.extend(
             DrawTile(obj.x, obj.y, obj.tile)
             for obj in self.level.monsters + self.level.items
