@@ -10,9 +10,6 @@ class Level:
     def __init__(self, depth: int, player: entities.Character):
         self.player = player
         self.depth = depth
-        self.map: list[list[base.GameObject]] = [
-            [base.Empty() for _ in range(LEVEL_WIDTH)] for _ in range(LEVEL_HEIGHT)
-        ]
         self.rooms: list[rooms.Room] = [rooms.Room(i) for i in range(9)]
         self.starting_room: int = random.randint(0, 8)
         x = (self.rooms[self.starting_room].x0 + self.rooms[self.starting_room].x1) // 2
@@ -23,15 +20,11 @@ class Level:
 
     def place(self, obj: entities.GameObject, x=None, y=None):
         obj.place(x, y)
-        self.map[obj.y][obj.x] = obj
 
     def move(self, obj: entities.GameObject, x=0, y=0):
-        self.map[obj.y][obj.x] = base.Empty()
         obj.move(x, y)
-        self.map[obj.y][obj.x] = obj
 
     def remove(self, obj: entities.GameObject):
-        self.map[obj.y][obj.x] = base.Empty()
         match type(obj):
             case entities.Monster:
                 self.monsters.remove(cast(entities.Monster, obj))

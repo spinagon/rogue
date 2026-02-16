@@ -39,8 +39,6 @@ def init(stdscr):
     curses.init_pair(curses.COLOR_YELLOW, curses.COLOR_YELLOW, curses.COLOR_BLACK)
     # Do not display cursor
     curses.curs_set(False)
-    # Do not move cursor
-    # stdscr.leaveok(True)
 
 
 def draw(stdscr, frame: Frame):
