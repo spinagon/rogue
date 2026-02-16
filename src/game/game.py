@@ -24,6 +24,9 @@ class Level:
         target = self[obj.x + dx, obj.y + dy]
         if target == Tile.FLOOR:
             obj.move(dx, dy)
+        if isinstance(target, items.Item):
+            self.remove(target)
+            self.player.backpack.items.append(target)
 
     def remove(self, obj: entities.GameObject):
         match type(obj):
@@ -78,7 +81,12 @@ class Level:
             if room.is_wall(x, y):
                 return Tile.WALL_H
             if room.is_floor(x, y):
-                pass  # check items and monsters
+                for item in self.items:
+                    if (item.x, item.y) == (x, y):
+                        return item
+                for m in self.monsters:
+                    if (m.x, m.y) == (x, y):
+                        return m
                 return Tile.FLOOR
         return Tile.EMPTY
 

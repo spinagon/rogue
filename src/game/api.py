@@ -1,9 +1,6 @@
 from dataclasses import dataclass
-from enum import Enum
-from typing import Iterable
-
-
 from enum import Enum, auto
+from typing import Iterable
 
 
 class Tile(Enum):
