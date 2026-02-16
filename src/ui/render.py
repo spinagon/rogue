@@ -33,12 +33,13 @@ TILE_COLORS = {
 }
 
 
-def init(stdscr):
+def init(win):
     curses.init_pair(curses.COLOR_RED, curses.COLOR_RED, curses.COLOR_BLACK)
     curses.init_pair(curses.COLOR_GREEN, curses.COLOR_GREEN, curses.COLOR_BLACK)
     curses.init_pair(curses.COLOR_YELLOW, curses.COLOR_YELLOW, curses.COLOR_BLACK)
     # Do not display cursor
     curses.curs_set(False)
+    win.leaveok(True)
 
 
 def draw(stdscr, frame: Frame):
