@@ -1,9 +1,9 @@
 import curses
 
-from game.game import Game
 from game.constants import LEVEL_HEIGHT, LEVEL_WIDTH
-from ui.input import read_input, InputEvent
+from game.game import Game
 from ui import render
+from ui.input import InputEvent, read_input
 
 
 def main(stdscr):

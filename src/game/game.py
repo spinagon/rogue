@@ -1,8 +1,8 @@
 import random
 from typing import cast
 
-from game.api import Tile, InputEvent, DrawTile, Frame
 from game import entities, items, rooms
+from game.api import DrawTile, Frame, InputEvent, Tile
 
 
 class Level:
