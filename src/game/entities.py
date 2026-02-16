@@ -5,6 +5,10 @@ from game.api import Tile
 from game.base import GameObject
 
 
+class Backpack:
+    def __init__(self):
+        self.items: list[items.Item] = []
+
 @dataclass
 class Character(GameObject):
     tile: Tile = Tile.CHARACTER
@@ -13,10 +17,11 @@ class Character(GameObject):
     str = 3
     dex = 3
     weapon = items.fist
+    backpack: Backpack = Backpack()
 
     @property
     def treasure(self):
-        return 0
+        return sum(item.value for item in self.backpack.items if isinstance(item, items.Treasure))
 
 
 @dataclass

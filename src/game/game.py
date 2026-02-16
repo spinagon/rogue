@@ -1,4 +1,5 @@
 import random
+from typing import cast
 
 from game.api import Tile, InputEvent, DrawTile, Frame
 from game import base, entities, items, rooms
@@ -28,6 +29,14 @@ class Level:
         self.map[obj.y][obj.x] = base.Empty()
         obj.move(x, y)
         self.map[obj.y][obj.x] = obj
+
+    def remove(self, obj: entities.GameObject):
+        self.map[obj.y][obj.x] = base.Empty()
+        match type(obj):
+            case entities.Monster:
+                self.monsters.remove(cast(entities.Monster, obj))
+            case items.Item:
+                self.items.remove(cast(items.Item, obj))
 
     def place_monsters(self) -> list[entities.Monster]:
         monsters = []
