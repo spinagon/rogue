@@ -134,4 +134,5 @@ class Game:
             max_hp=self.level.player.max_hp,
             treasure=self.level.player.treasure,
             level=self.level.depth,
+            message=f"{self.level.player.x=} {self.level.player.y=}",
         )

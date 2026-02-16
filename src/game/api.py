@@ -52,3 +52,4 @@ class Frame:
     max_hp: int
     treasure: int
     level: int
+    message: str = ""

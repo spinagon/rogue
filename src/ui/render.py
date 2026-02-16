@@ -52,5 +52,6 @@ def draw(stdscr, frame: Frame):
     height, width = stdscr.getmaxyx()
     status = f"Level: {frame.level} | HP: {frame.hp}/{frame.max_hp} | Treasure: {frame.treasure}"
     stdscr.addstr(height - 1, 0, status[:width])
+    stdscr.addstr(height - 2, 0, frame.message[:width])
 
     stdscr.refresh()
