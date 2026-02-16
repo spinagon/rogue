@@ -2,8 +2,7 @@ import random
 from typing import cast
 
 from game.api import Tile, InputEvent, DrawTile, Frame
-from game import base, entities, items, rooms
-from game.constants import LEVEL_WIDTH, LEVEL_HEIGHT
+from game import entities, items, rooms
 
 
 class Level:
@@ -21,8 +20,10 @@ class Level:
     def place(self, obj: entities.GameObject, x=None, y=None):
         obj.place(x, y)
 
-    def move(self, obj: entities.GameObject, x=0, y=0):
-        obj.move(x, y)
+    def move(self, obj: entities.GameObject, dx=0, dy=0):
+        target = self[obj.x + dx, obj.y + dy]
+        if target == Tile.FLOOR:
+            obj.move(dx, dy)
 
     def remove(self, obj: entities.GameObject):
         match type(obj):
@@ -71,6 +72,16 @@ class Level:
             self.place(new_items[-1], x=x, y=y)
         return new_items
 
+    def __getitem__(self, key):
+        x, y = key
+        for room in self.rooms:
+            if room.is_wall(x, y):
+                return Tile.WALL_H
+            if room.is_floor(x, y):
+                pass  # check items and monsters
+                return Tile.FLOOR
+        return Tile.EMPTY
+
 
 class Game:
     def __init__(self):
@@ -79,13 +90,13 @@ class Game:
     def handle(self, event: InputEvent):
         match event:
             case InputEvent.MOVE_UP:
-                self.level.move(self.level.player, y=-1)
+                self.level.move(self.level.player, dy=-1)
             case InputEvent.MOVE_DOWN:
-                self.level.move(self.level.player, y=1)
+                self.level.move(self.level.player, dy=1)
             case InputEvent.MOVE_LEFT:
-                self.level.move(self.level.player, x=-1)
+                self.level.move(self.level.player, dx=-1)
             case InputEvent.MOVE_RIGHT:
-                self.level.move(self.level.player, x=1)
+                self.level.move(self.level.player, dx=1)
 
     def in_room(self, room, x: int, y: int) -> bool:
         return room.x0 <= x <= room.x1 and room.y0 <= y <= room.y1
