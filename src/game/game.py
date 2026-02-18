@@ -23,7 +23,7 @@ class Level:
 
     def move(self, obj: entities.GameObject, dx=0, dy=0):
         target = self[obj.x + dx, obj.y + dy]
-        if target == Tile.FLOOR:
+        if target in [Tile.FLOOR, Tile.CORRIDOR]:
             obj.move(dx, dy)
         if isinstance(target, items.Item):
             self.remove(target)
@@ -76,8 +76,11 @@ class Level:
             self.place(new_items[-1], x=x, y=y)
         return new_items
 
-    def __getitem__(self, key):
-        x, y = key
+    def __getitem__(self, k):
+        x, y = k
+        for c in self.corridors:
+            if c.is_inside(x, y):
+                return Tile.CORRIDOR
         for room in self.rooms:
             if room.is_wall(x, y):
                 return Tile.WALL_H
