@@ -32,7 +32,7 @@ class Room:
 
 class Corridor:
     def __init__(self, rooms):
-        self.rooms = sorted(rooms, key=lambda x: x.id)
+        self.rooms: list[Room] = sorted(rooms, key=lambda x: x.id)
         if self.rooms[1].id - self.rooms[0].id == 1:
             self.horizontal = True
             self.x0 = self.rooms[0].x1

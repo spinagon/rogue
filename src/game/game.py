@@ -1,6 +1,5 @@
 import logging
 import random
-from typing import cast
 
 from game import entities, items, rooms
 from game.api import DrawTile, Frame, InputEvent, Tile
