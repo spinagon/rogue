@@ -10,6 +10,7 @@ class Level:
         self.player = player
         self.depth = depth
         self.rooms: list[rooms.Room] = [rooms.Room(i) for i in range(9)]
+        self.corridors = [rooms.Corridor(self.rooms[:2])]
         self.starting_room: int = random.randint(0, 8)
         x = (self.rooms[self.starting_room].x0 + self.rooms[self.starting_room].x1) // 2
         y = (self.rooms[self.starting_room].y0 + self.rooms[self.starting_room].y1) // 2
@@ -128,9 +129,19 @@ class Game:
                         tiles.append(DrawTile(x, y, Tile.FLOOR))
         return tiles
 
+    def draw_corridors(self) -> list[DrawTile]:
+        tiles = []
+        for c in self.level.corridors:
+            for x in range(min(c.x0, c.x1), max(c.x0, c.x1) + 1):
+                for y in range(min(c.y0, c.y1), max(c.y0, c.y1) + 1):
+                    if c.is_inside(x, y):
+                        tiles.append(DrawTile(x, y, Tile.CORRIDOR))
+        return tiles
+
     def frame(self) -> Frame:
         tiles = []
         tiles.extend(self.draw_rooms())
+        tiles.extend(self.draw_corridors())
         tiles.extend(
             DrawTile(obj.x, obj.y, obj.tile)
             for obj in self.level.monsters + self.level.items

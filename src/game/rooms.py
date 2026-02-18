@@ -1,6 +1,12 @@
+import logging
+import math
 import random
 
 from game import constants
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+logger.addHandler(logging.FileHandler("debug.log", mode="w"))
 
 
 class Room:
@@ -24,3 +30,41 @@ class Room:
 
     def is_inside(self, x, y):
         return self.x0 <= x <= self.x1 and self.y0 <= y <= self.y1
+
+
+class Corridor:
+    def __init__(self, rooms):
+        self.rooms = sorted(rooms, key=lambda x: x.id)
+        if self.rooms[1].id - self.rooms[0].id == 1:
+            # horizontal corridor
+            self.x0 = self.rooms[0].x1
+            self.x1 = self.rooms[1].x0
+            self.y0 = random.randint(self.rooms[0].y0 + 1, self.rooms[0].y1 - 1)
+            self.y1 = random.randint(self.rooms[1].y0 + 1, self.rooms[1].y1 - 1)
+        else:
+            # vertical corridor
+            self.y0 = self.rooms[0].y1
+            self.y1 = self.rooms[1].y0
+            self.x0 = random.randint(self.rooms[0].x0 + 1, self.rooms[0].x1 - 1)
+            self.x1 = random.randint(self.rooms[1].x0 + 1, self.rooms[1].x1 - 1)
+
+    def is_inside(self, x, y):
+        if in_range(x, self.x0, self.x1) and in_range(y, self.y0, self.y1):
+            logger.debug(f"{x}, {y}")
+            dist = distance_to_line((self.x0, self.y0), (self.x1, self.y1), (x, y))
+            if dist <= 0.71:
+                return True
+        return False
+
+
+def distance_to_line(p0, p1, p) -> float:
+    x0, y0 = p0
+    x1, y1 = p1
+    x, y = p
+    return abs((y1 - y0) * x - (x1 - x0) * y + x1 * y0 - y1 * x0) / math.sqrt(
+        (y1 - y0) ** 2 + (x1 - x0) ** 2
+    )
+
+
+def in_range(x, x0, x1):
+    return min(x0, x1) <= x <= max(x0, x1)
