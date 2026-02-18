@@ -5,8 +5,6 @@ import random
 from game import constants
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
-logger.addHandler(logging.FileHandler("debug.log", mode="w"))
 
 
 class Room:
@@ -36,13 +34,13 @@ class Corridor:
     def __init__(self, rooms):
         self.rooms = sorted(rooms, key=lambda x: x.id)
         if self.rooms[1].id - self.rooms[0].id == 1:
-            # horizontal corridor
+            self.horizontal = True
             self.x0 = self.rooms[0].x1
             self.x1 = self.rooms[1].x0
             self.y0 = random.randint(self.rooms[0].y0 + 1, self.rooms[0].y1 - 1)
             self.y1 = random.randint(self.rooms[1].y0 + 1, self.rooms[1].y1 - 1)
         else:
-            # vertical corridor
+            self.horizontal = False
             self.y0 = self.rooms[0].y1
             self.y1 = self.rooms[1].y0
             self.x0 = random.randint(self.rooms[0].x0 + 1, self.rooms[0].x1 - 1)
@@ -50,7 +48,25 @@ class Corridor:
 
     def is_inside(self, x, y):
         if in_range(x, self.x0, self.x1) and in_range(y, self.y0, self.y1):
-            logger.debug(f"{x}, {y}")
+            if self.horizontal:
+                if x == self.x0 and y != self.y0:
+                    return False
+                if x == self.x1 and y != self.y1:
+                    return False
+                if y == self.y0 and abs(x - self.x0) == 1:
+                    return True
+                if y == self.y1 and abs(x - self.x1) == 1:
+                    return True
+            else:
+                if y == self.y0 and x != self.x0:
+                    return False
+                if y == self.y1 and x != self.x1:
+                    return False
+                if x == self.x0 and abs(y - self.y0) == 1:
+                    return True
+                if x == self.x1 and abs(y - self.y1) == 1:
+                    return True
+
             dist = distance_to_line((self.x0, self.y0), (self.x1, self.y1), (x, y))
             if dist <= 0.71:
                 return True

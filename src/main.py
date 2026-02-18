@@ -1,9 +1,14 @@
 import curses
+import logging
 
 from game.constants import LEVEL_HEIGHT, LEVEL_WIDTH
 from game.game import Game
 from ui import render
 from ui.input import InputEvent, read_input
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+logger.addHandler(logging.FileHandler("debug.log", mode="w"))
 
 
 def main(stdscr):

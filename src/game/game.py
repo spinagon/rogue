@@ -1,8 +1,13 @@
+import logging
 import random
 from typing import cast
 
 from game import entities, items, rooms
 from game.api import DrawTile, Frame, InputEvent, Tile
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+logger.addHandler(logging.FileHandler("debug.log", mode="w"))
 
 
 class Level:
@@ -10,7 +15,7 @@ class Level:
         self.player = player
         self.depth = depth
         self.rooms: list[rooms.Room] = [rooms.Room(i) for i in range(9)]
-        self.corridors = [rooms.Corridor(self.rooms[:2])]
+        self.corridors = self.generate_corridors()
         self.starting_room: int = random.randint(0, 8)
         x = (self.rooms[self.starting_room].x0 + self.rooms[self.starting_room].x1) // 2
         y = (self.rooms[self.starting_room].y0 + self.rooms[self.starting_room].y1) // 2
@@ -28,13 +33,37 @@ class Level:
         if isinstance(target, items.Item):
             self.remove(target)
             self.player.backpack.items.append(target)
+            obj.move(dx, dy)
 
     def remove(self, obj: entities.GameObject):
-        match type(obj):
-            case entities.Monster:
-                self.monsters.remove(cast(entities.Monster, obj))
-            case items.Item:
-                self.items.remove(cast(items.Item, obj))
+        if isinstance(obj, entities.Monster):
+            self.monsters.remove(obj)
+        if isinstance(obj, items.Item):
+            self.items.remove(obj)
+
+    def generate_corridors(self):
+        adjacency = {
+            0: [1, 3],
+            1: [0, 2, 4],
+            2: [1, 5],
+            3: [0, 4, 6],
+            4: [1, 3, 5, 7],
+            5: [2, 4, 8],
+            6: [3, 7],
+            7: [4, 6, 8],
+            8: [5, 7],
+        }
+        corridors: list[rooms.Corridor] = []
+        connected = [self.rooms[0]]
+        while len(connected) < len(self.rooms):
+            room1 = random.choice(connected)
+            room2 = self.rooms[random.choice(adjacency[room1.id])]
+            if room2 in connected:
+                continue
+            corridor = rooms.Corridor([room1, room2])
+            corridors.append(corridor)
+            connected.append(room2)
+        return corridors
 
     def place_monsters(self) -> list[entities.Monster]:
         monsters = []

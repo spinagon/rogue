@@ -56,5 +56,6 @@ def draw(win, frame: Frame):
     status = f"Level: {frame.level} | HP: {frame.hp}/{frame.max_hp} | Treasure: {frame.treasure}"
     win.addstr(height - 1, 0, status[:width])
     win.addstr(height - 2, 0, frame.message[:width])
+    win.redrawln(0, 1)
 
     win.refresh()
