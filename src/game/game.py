@@ -3,6 +3,7 @@ import random
 
 from game import entities, items, rooms
 from game.api import DrawTile, Frame, InputEvent, Tile
+from game.base import GameObject
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -21,6 +22,7 @@ class Level:
         self.place(player, x, y)
         self.items: list[items.Item] = self.place_items()
         self.monsters: list[entities.Monster] = self.place_monsters()
+        self.message = ""
 
     def place(self, obj: entities.GameObject, x=None, y=None):
         obj.place(x, y)
@@ -29,10 +31,30 @@ class Level:
         target = self[obj.x + dx, obj.y + dy]
         if target in [Tile.FLOOR, Tile.CORRIDOR]:
             obj.move(dx, dy)
-        if isinstance(target, items.Item):
+        if isinstance(target, items.Item) and obj is self.player:
             self.remove(target)
             self.player.backpack.items.append(target)
             obj.move(dx, dy)
+        if isinstance(target, entities.Monster) and obj is self.player:
+            self.fight(obj, target)
+
+    def fight(self, attacker: entities.Entity, defender: entities.Entity):
+        hit = random.randint(0, attacker.dex + attacker.dex_mod) > random.randint(
+            0, defender.dex + defender.dex_mod
+        )
+        if hit:
+            dmg = random.randint(
+                0, attacker.str + attacker.str_mod + attacker.weapon.str_
+            )
+            defender.hp -= dmg
+            self.message = f"{attacker.name} hit {defender.name} for {dmg} damage"
+            if defender.hp <= 0:
+                self.remove(defender)
+
+    def end_turn(self):
+        for monster in self.monsters:
+            dx, dy = monster.get_move()
+            self.move(monster, dx, dy)
 
     def remove(self, obj: entities.GameObject):
         if isinstance(obj, entities.Monster):
@@ -104,23 +126,26 @@ class Level:
             self.place(new_items[-1], x=x, y=y)
         return new_items
 
-    def __getitem__(self, k):
+    def __getitem__(self, k) -> Tile | GameObject:
         x, y = k
-        for c in self.corridors:
-            if c.is_inside(x, y):
-                return Tile.CORRIDOR
+        ret = Tile.EMPTY
+        if (self.player.x, self.player.y) == (x, y):
+            return self.player
+        for item in self.items:
+            if (item.x, item.y) == (x, y):
+                return item
+        for m in self.monsters:
+            if (m.x, m.y) == (x, y):
+                return m
         for room in self.rooms:
             if room.is_wall(x, y):
-                return Tile.WALL_H
+                ret = Tile.WALL_H
             if room.is_floor(x, y):
-                for item in self.items:
-                    if (item.x, item.y) == (x, y):
-                        return item
-                for m in self.monsters:
-                    if (m.x, m.y) == (x, y):
-                        return m
-                return Tile.FLOOR
-        return Tile.EMPTY
+                ret = Tile.FLOOR
+        for c in self.corridors:
+            if c.is_inside(x, y):
+                ret = Tile.CORRIDOR
+        return ret
 
 
 class Game:
@@ -131,12 +156,16 @@ class Game:
         match event:
             case InputEvent.MOVE_UP:
                 self.level.move(self.level.player, dy=-1)
+                self.level.end_turn()
             case InputEvent.MOVE_DOWN:
                 self.level.move(self.level.player, dy=1)
+                self.level.end_turn()
             case InputEvent.MOVE_LEFT:
                 self.level.move(self.level.player, dx=-1)
+                self.level.end_turn()
             case InputEvent.MOVE_RIGHT:
                 self.level.move(self.level.player, dx=1)
+                self.level.end_turn()
 
     def in_room(self, room, x: int, y: int) -> bool:
         return room.x0 <= x <= room.x1 and room.y0 <= y <= room.y1
@@ -178,11 +207,13 @@ class Game:
             for obj in self.level.monsters + self.level.items
         )
         tiles.append(DrawTile(self.level.player.x, self.level.player.y, Tile.CHARACTER))
-        return Frame(
+        ret = Frame(
             tiles=tiles,
             hp=self.level.player.hp,
             max_hp=self.level.player.max_hp,
             treasure=self.level.player.treasure,
             level=self.level.depth,
-            message=f"{self.level.player.x=} {self.level.player.y=}",
+            message=self.level.message,
         )
+        self.level.message = ""
+        return ret
