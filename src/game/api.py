@@ -35,6 +35,10 @@ class InputEvent(Enum):
     MOVE_LEFT = auto()
     MOVE_RIGHT = auto()
     QUIT = auto()
+    USE_WEAPON = auto()
+    USE_FOOD = auto()
+    USE_ELIXIR = auto()
+    USE_SCROLL = auto()
 
 
 @dataclass(frozen=True)

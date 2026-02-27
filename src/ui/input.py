@@ -6,6 +6,10 @@ KEYMAP = {
     "s": InputEvent.MOVE_DOWN,
     "d": InputEvent.MOVE_RIGHT,
     "q": InputEvent.QUIT,
+    "h": InputEvent.USE_WEAPON,
+    "j": InputEvent.USE_FOOD,
+    "k": InputEvent.USE_ELIXIR,
+    "e": InputEvent.USE_SCROLL,
 }
 
 

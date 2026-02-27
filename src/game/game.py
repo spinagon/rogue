@@ -166,6 +166,14 @@ class Game:
             case InputEvent.MOVE_RIGHT:
                 self.level.move(self.level.player, dx=1)
                 self.level.end_turn()
+            case InputEvent.USE_WEAPON:
+                pass
+            case InputEvent.USE_FOOD:
+                pass
+            case InputEvent.USE_ELIXIR:
+                pass
+            case InputEvent.USE_SCROLL:
+                pass
 
     def in_room(self, room, x: int, y: int) -> bool:
         return room.x0 <= x <= room.x1 and room.y0 <= y <= room.y1
