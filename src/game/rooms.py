@@ -48,26 +48,35 @@ class Corridor:
 
     def is_inside(self, x, y):
         if in_range(x, self.x0, self.x1) and in_range(y, self.y0, self.y1):
-            if self.horizontal:
-                if x == self.x0 and y != self.y0:
-                    return False
-                if x == self.x1 and y != self.y1:
-                    return False
-                if y == self.y0 and abs(x - self.x0) == 1:
-                    return True
-                if y == self.y1 and abs(x - self.x1) == 1:
-                    return True
-            else:
-                if y == self.y0 and x != self.x0:
-                    return False
-                if y == self.y1 and x != self.x1:
-                    return False
-                if x == self.x0 and abs(y - self.y0) == 1:
-                    return True
-                if x == self.x1 and abs(y - self.y1) == 1:
-                    return True
+            if x == self.x0 and y == self.y0:
+                return True
+            if x == self.x1 and y == self.y1:
+                return True
 
-            dist = distance_to_line((self.x0, self.y0), (self.x1, self.y1), (x, y))
+            if self.horizontal:
+                if self.x0 < self.x1:
+                    start_x = self.x0 + 1
+                    start_y = self.y0
+                    end_x = self.x1 - 1
+                    end_y = self.y1
+                else:
+                    start_x = self.x1 + 1
+                    start_y = self.y1
+                    end_x = self.x0 - 1
+                    end_y = self.y0
+            else:
+                if self.y0 < self.y1:
+                    start_x = self.x0
+                    start_y = self.y0 + 1
+                    end_x = self.x1
+                    end_y = self.y1 - 1
+                else:
+                    start_x = self.x1
+                    start_y = self.y1 + 1
+                    end_x = self.x0
+                    end_y = self.y0 - 1
+
+            dist = distance_to_line((start_x, start_y), (end_x, end_y), (x, y))
             if dist <= 0.71:
                 return True
         return False
