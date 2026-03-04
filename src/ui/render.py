@@ -61,8 +61,9 @@ def draw(win, frame: Frame):
     win.refresh()
 
 
-def choose_item(items: list[DisplayItem]):
-    list_box = curses.newwin(10, 35, 5, 15)
+def choose_item(win, items: list[DisplayItem]):
+    list_box = win.derwin(10, 35, 5, 15)
+    list_box.erase()
     list_box.border()
     for i, item in enumerate(items):
         list_box.addstr(i + 1, 1, item.name)
