@@ -149,8 +149,19 @@ class Level:
 
 
 class Game:
-    def __init__(self):
+    def __init__(self, ui):
+        self.ui = ui
         self.level = Level(depth=1, player=entities.Character())
+
+    def loop(self):
+        self.ui.draw(self.frame())
+        while True:
+            event = self.ui.get_input()
+            if event == InputEvent.QUIT:
+                break
+            if event is not None:
+                self.handle(event)
+                self.ui.draw(self.frame())
 
     def handle(self, event: InputEvent):
         match event:
