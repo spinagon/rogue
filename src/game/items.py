@@ -2,7 +2,7 @@ import random
 from dataclasses import dataclass
 from typing import ClassVar
 
-from game.api import Tile
+from api import Tile
 from game.base import GameObject
 
 

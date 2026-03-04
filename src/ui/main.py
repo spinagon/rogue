@@ -1,6 +1,7 @@
 import curses
-from ui import render, input
-from game.api import Frame
+
+from api import Frame
+from ui import input, render
 
 
 class UI:

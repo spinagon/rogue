@@ -1,4 +1,4 @@
-from game.api import InputEvent
+from api import InputEvent
 
 KEYMAP = {
     "w": InputEvent.MOVE_UP,

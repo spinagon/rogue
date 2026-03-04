@@ -1,6 +1,6 @@
 from dataclasses import KW_ONLY, dataclass
 
-from game.api import Tile
+from api import Tile
 
 
 @dataclass

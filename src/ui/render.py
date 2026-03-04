@@ -1,6 +1,6 @@
 import curses
 
-from game.api import Frame, Tile
+from api import Frame, Tile
 
 TILE_MAP = {
     Tile.EMPTY: " ",

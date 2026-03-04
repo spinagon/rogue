@@ -1,8 +1,8 @@
 import logging
 import random
 
+from api import DrawTile, Frame, InputEvent, Tile
 from game import entities, items, rooms
-from game.api import DrawTile, Frame, InputEvent, Tile
 from game.base import GameObject
 
 logger = logging.getLogger(__name__)
