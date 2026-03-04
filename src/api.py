@@ -56,3 +56,10 @@ class Frame:
     treasure: int
     level: int
     message: str = ""
+
+
+@dataclass(frozen=True)
+class DisplayItem:
+    name: str
+    stat: int
+    id: int

@@ -178,7 +178,9 @@ class Game:
                 self.level.move(self.level.player, dx=1)
                 self.level.end_turn()
             case InputEvent.USE_WEAPON:
-                pass
+                item = self.ui.choose_weapon(
+                    [x.display_item() for x in self.level.player.backpack.items]
+                )
             case InputEvent.USE_FOOD:
                 pass
             case InputEvent.USE_ELIXIR:

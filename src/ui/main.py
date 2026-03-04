@@ -1,6 +1,7 @@
 import curses
+from typing import Iterable
 
-from api import Frame
+from api import DisplayItem, Frame
 from ui import input, render
 
 
@@ -17,3 +18,6 @@ class UI:
 
     def draw(self, frame: Frame):
         render.draw(self.win, frame)
+
+    def choose_weapon(self, weapons: Iterable[DisplayItem]):
+        pass

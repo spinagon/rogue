@@ -2,7 +2,7 @@ import random
 from dataclasses import dataclass
 from typing import ClassVar
 
-from api import Tile
+from api import DisplayItem, Tile
 from game.base import GameObject
 
 
@@ -14,6 +14,13 @@ class Item(GameObject):
     str_: int = 0
     value: int = 0
     name: str = "Generic item"
+
+    def display_item(self):
+        return DisplayItem(
+            name=self.name,
+            stat=max(self.hp, self.max_hp, self.dex, self.str_),
+            id=id(self),
+        )
 
 
 @dataclass
