@@ -20,4 +20,5 @@ class UI:
         render.draw(self.win, frame)
 
     def choose_weapon(self, weapons: Iterable[DisplayItem]):
-        pass
+        render.choose_item(weapons)
+        return 0

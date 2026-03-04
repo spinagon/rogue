@@ -1,6 +1,6 @@
 import curses
 
-from api import Frame, Tile
+from api import DisplayItem, Frame, Tile
 
 TILE_MAP = {
     Tile.EMPTY: " ",
@@ -59,3 +59,11 @@ def draw(win, frame: Frame):
     win.redrawln(0, 1)
 
     win.refresh()
+
+
+def choose_item(items: list[DisplayItem]):
+    list_box = curses.newwin(10, 35, 5, 15)
+    list_box.border()
+    for i, item in enumerate(items):
+        list_box.addstr(i + 1, 1, item.name)
+    list_box.getkey()

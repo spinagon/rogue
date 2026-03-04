@@ -10,6 +10,9 @@ class Backpack:
     def __init__(self):
         self.items: list[items.Item] = []
 
+    def remove(self, item):
+        self.items.remove(item)
+
 
 class Entity(GameObject):
     tile: Tile

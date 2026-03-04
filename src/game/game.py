@@ -178,9 +178,15 @@ class Game:
                 self.level.move(self.level.player, dx=1)
                 self.level.end_turn()
             case InputEvent.USE_WEAPON:
-                item = self.ui.choose_weapon(
+                item_id = self.ui.choose_weapon(
                     [x.display_item() for x in self.level.player.backpack.items]
                 )
+                if item_id:
+                    item = [
+                        x for x in self.level.player.backpack.items if id(x) == item_id
+                    ]
+                    self.level.player.weapon = item
+                    self.level.player.backpack.remove(item)
             case InputEvent.USE_FOOD:
                 pass
             case InputEvent.USE_ELIXIR:
