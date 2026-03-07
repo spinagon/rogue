@@ -61,10 +61,16 @@ def draw(win, frame: Frame):
     win.refresh()
 
 
-def choose_item(win, items: list[DisplayItem]):
+def choose_item(win, type_: str, items: list[DisplayItem]):
     list_box = win.derwin(10, 35, 5, 15)
     list_box.erase()
     list_box.border()
+    list_box.addstr(0, 1, f"Choose {type_}")
     for i, item in enumerate(items):
-        list_box.addstr(i + 1, 1, item.name)
-    list_box.getkey()
+        row = f"{i} {item.name:20s} {item.stat_name + ':':7s} {item.stat}"
+        list_box.addstr(i + 1, 1, row)
+    key = list_box.getkey()
+    if "0" <= key <= "9":
+        if int(key) < len(items):
+            return items[int(key)].id
+    return -1

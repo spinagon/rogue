@@ -61,5 +61,6 @@ class Frame:
 @dataclass(frozen=True)
 class DisplayItem:
     name: str
+    stat_name: str
     stat: int
     id: int

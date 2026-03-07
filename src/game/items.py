@@ -1,6 +1,6 @@
 import random
 from dataclasses import dataclass
-from typing import ClassVar
+from typing import ClassVar, Tuple
 
 from api import DisplayItem, Tile
 from game.base import GameObject
@@ -16,9 +16,19 @@ class Item(GameObject):
     name: str = "Generic item"
 
     def display_item(self):
+        stats: list[Tuple[int, str]] = sorted(
+            [
+                (self.hp, "hp"),
+                (self.max_hp, "max hp"),
+                (self.dex, "dex"),
+                (self.str_, "str"),
+            ]
+        )
+        max_stat, stat_name = stats[-1]
         return DisplayItem(
             name=self.name,
-            stat=max(self.hp, self.max_hp, self.dex, self.str_),
+            stat_name=stat_name,
+            stat=max_stat,
             id=id(self),
         )
 

@@ -178,17 +178,31 @@ class Game:
                 self.level.move(self.level.player, dx=1)
                 self.level.end_turn()
             case InputEvent.USE_WEAPON:
-                item_id = self.ui.choose_weapon(
-                    [x.display_item() for x in self.level.player.backpack.items]
-                )
-                if item_id:
+                weapons = [items.fist.display_item()] + [
+                    x.display_item() for x in self.level.player.backpack.items
+                ]
+                item_id = self.ui.choose_item("weapon", weapons)
+                if item_id >= 0:
                     item = [
                         x for x in self.level.player.backpack.items if id(x) == item_id
-                    ]
+                    ][0]
                     self.level.player.weapon = item
                     self.level.player.backpack.remove(item)
             case InputEvent.USE_FOOD:
-                pass
+                foods = [
+                    x.display_item()
+                    for x in self.level.player.backpack.items
+                    if isinstance(x, items.Food)
+                ]
+                item_id = self.ui.choose_item("food", foods)
+                if item_id >= 0:
+                    item = [
+                        x for x in self.level.player.backpack.items if id(x) == item_id
+                    ][0]
+                    self.level.player.hp = min(
+                        self.level.player.hp + item.hp, self.level.player.max_hp
+                    )
+                    self.level.player.backpack.remove(item)
             case InputEvent.USE_ELIXIR:
                 pass
             case InputEvent.USE_SCROLL:
