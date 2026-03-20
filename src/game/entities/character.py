@@ -1,9 +1,10 @@
+from dataclasses import dataclass
+
 from api import Tile
 from ..items.item import Item
 from ..items.treasure import Treasure
 from ..items import fist
-from dataclasses import dataclass
-from entity import Entity
+from .entity import Entity
 
 class Backpack:
     def __init__(self):

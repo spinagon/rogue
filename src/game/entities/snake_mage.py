@@ -1,6 +1,6 @@
 from api import Tile
 from dataclasses import dataclass
-from monster import Monster
+from .monster import Monster
 
 @dataclass
 class SnakeMage(Monster):

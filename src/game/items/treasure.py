@@ -1,7 +1,7 @@
 import random
 from dataclasses import dataclass
 
-from item import Item
+from .item import Item
 
 @dataclass
 class Treasure(Item):

@@ -2,7 +2,7 @@ import random
 from dataclasses import dataclass
 from typing import ClassVar
 
-from item import Item
+from .item import Item
 from api import Tile
 
 @dataclass
