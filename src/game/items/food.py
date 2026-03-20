@@ -2,8 +2,9 @@ import random
 from dataclasses import dataclass
 from typing import ClassVar
 
-from item import Item
+from game.items.item import Item
 from api import Tile
+
 
 @dataclass
 class Food(Item):

@@ -1,6 +1,7 @@
 from api import Tile
 from dataclasses import dataclass
-from monster import Monster
+from game.entities.monster import Monster
+
 
 @dataclass
 class Vampire(Monster):

@@ -1,7 +1,8 @@
 import random
 
 from dataclasses import dataclass
-from entity import Entity
+from game.entities.entity import Entity
+
 
 @dataclass
 class Monster(Entity):

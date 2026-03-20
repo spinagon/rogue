@@ -1,3 +1,3 @@
-from weapon import Weapon
+from game.items.weapon import Weapon
 
 fist = Weapon(name="No weapon")

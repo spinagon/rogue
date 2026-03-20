@@ -1,9 +1,10 @@
 from api import Tile
-from ..items.item import Item
-from ..items.treasure import Treasure
-from ..items import fist
+from game.items.item import Item
+from game.items.treasure import Treasure
+from game.items import fist
 from dataclasses import dataclass
-from entity import Entity
+from game.entities.entity import Entity
+
 
 class Backpack:
     def __init__(self):
@@ -11,6 +12,7 @@ class Backpack:
 
     def remove(self, item):
         self.items.remove(item)
+
 
 @dataclass
 class Character(Entity):
@@ -26,7 +28,5 @@ class Character(Entity):
     @property
     def treasure(self):
         return sum(
-            item.value
-            for item in self.backpack.items
-            if isinstance(item, Treasure)
+            item.value for item in self.backpack.items if isinstance(item, Treasure)
         )

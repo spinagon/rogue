@@ -3,23 +3,24 @@ import random
 
 from api import Tile
 from game.base import GameObject
-from ..entities.character import Character
-from ..entities.monster import Monster
-from ..entities.entity import Entity
-from ..rooms.room import Room
-from ..rooms.corridor import Corridor
-from ..entities import monster_types
-from ..items.item import Item
-from ..items.weapon import Weapon
-from ..items.food import Food
-from ..items.elexir import Elixir
-from ..items.scroll import Scroll
-from ..items.treasure import Treasure
-from ..rooms.stair import Stair
+from game.entities.character import Character
+from game.entities.monster import Monster
+from game.entities.entity import Entity
+from game.rooms.room import Room
+from game.rooms.corridor import Corridor
+from game.entities import monster_types
+from game.items.item import Item
+from game.items.weapon import Weapon
+from game.items.food import Food
+from game.items.elexir import Elixir
+from game.items.scroll import Scroll
+from game.items.treasure import Treasure
+from game.rooms.stair import Stair
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 logger.addHandler(logging.FileHandler("debug.log", mode="w"))
+
 
 class Level:
     def __init__(self, depth: int, player: Character):
@@ -152,7 +153,6 @@ class Level:
         stair = Stair()
         self.place(stair, x=x, y=y)
         return stair
-
 
     def __getitem__(self, k) -> Tile | GameObject:
         x, y = k
