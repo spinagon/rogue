@@ -1,0 +1,15 @@
+from api import Tile
+from game.items import fist
+from game.base import GameObject
+
+class Entity(GameObject):
+    tile: Tile
+    max_hp: int
+    max_hp_mod = 0
+    hp: int
+    str: int
+    str_mod = 0
+    dex: int
+    dex_mod = 0
+    weapon = fist
+    name: str = "unknown"

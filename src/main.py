@@ -2,7 +2,7 @@ import curses
 import logging
 
 from game.constants import LEVEL_HEIGHT, LEVEL_WIDTH
-from game.game import Game
+from game.game.game import Game
 from ui.main import UI
 
 logger = logging.getLogger(__name__)

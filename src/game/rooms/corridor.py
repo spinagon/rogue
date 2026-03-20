@@ -1,34 +1,6 @@
-import logging
-import math
 import random
-
-from game import constants
-
-logger = logging.getLogger(__name__)
-
-
-class Room:
-    def __init__(self, id: int):
-        self.id = id
-        self.discovered = False
-        x = (id % 3) * (constants.LEVEL_WIDTH // 3)
-        y = (id // 3) * (constants.LEVEL_HEIGHT // 3)
-        self.x0 = random.randint(x + 1, x + constants.LEVEL_WIDTH // 3 - 7)
-        self.y0 = random.randint(y + 1, y + constants.LEVEL_HEIGHT // 3 - 5)
-        self.x1 = random.randint(self.x0 + 5, x + constants.LEVEL_WIDTH // 3 - 2)
-        self.y1 = random.randint(self.y0 + 3, y + constants.LEVEL_HEIGHT // 3 - 2)
-
-    def is_floor(self, x, y):
-        return self.is_inside(x, y) and not self.is_wall(x, y)
-
-    def is_wall(self, x, y):
-        return self.is_inside(x, y) and (
-            x in [self.x0, self.x1] or y in [self.y0, self.y1]
-        )
-
-    def is_inside(self, x, y):
-        return self.x0 <= x <= self.x1 and self.y0 <= y <= self.y1
-
+from .room import Room
+from . import distance_to_line, in_range
 
 class Corridor:
     def __init__(self, rooms):
@@ -80,16 +52,3 @@ class Corridor:
             if dist <= 0.71:
                 return True
         return False
-
-
-def distance_to_line(p0, p1, p) -> float:
-    x0, y0 = p0
-    x1, y1 = p1
-    x, y = p
-    return abs((y1 - y0) * x - (x1 - x0) * y + x1 * y0 - y1 * x0) / math.sqrt(
-        (y1 - y0) ** 2 + (x1 - x0) ** 2
-    )
-
-
-def in_range(x, x0, x1):
-    return min(x0, x1) <= x <= max(x0, x1)
