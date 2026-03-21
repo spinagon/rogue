@@ -1,25 +1,55 @@
+from enum import Enum, auto
+
 from api import DrawTile, Frame, InputEvent, Tile
 from .level import Level
 from ..entities.character import Character
 
+class GameStatus(Enum):
+    ACTIVE = auto()
+    WON = auto()
+    LOST = auto()
+
 class Game:
+    MAX_DEPTH: int = 21
+
     def __init__(self, ui):
         self.ui = ui
         self.current_depth = 1
         self.level = Level(depth=self.current_depth, player=Character())
-        self.descend_next_turn = False
+        self.game_status = GameStatus.ACTIVE
 
     def loop(self):
         self.ui.draw(self.frame())
         while True:
-            if self.level.exited:
-                self.advance_depth()
+            self.get_current_game_status()
+            self.do_action_by_game_status()
             event = self.ui.get_input()
             if event == InputEvent.QUIT:
                 break
             if event is not None:
                 self.handle(event)
                 self.ui.draw(self.frame())
+
+    def get_current_game_status(self):
+        if self.level.player.hp <= 0:
+            self.game_status = GameStatus.LOST
+        elif self.current_depth > Game.MAX_DEPTH:
+            self.game_status = GameStatus.WON
+        elif self.level.exited:
+            self.advance_depth()
+
+    def do_action_by_game_status(self):
+        if self.game_status == GameStatus.WON:
+            pass
+            # TODO present winner screen
+        elif self.game_status == GameStatus.LOST:
+            pass
+            # TODO present loser screen
+
+        # TODO add function to save score in high score table
+        self.current_depth = 1
+        self.level = Level(depth=self.current_depth, player=Character())
+        self.game_status = GameStatus.ACTIVE
 
     def handle(self, event: InputEvent):
         match event:
@@ -106,4 +136,4 @@ class Game:
 
     def advance_depth(self):
         self.current_depth += 1
-        self.level = Level(depth=self.current_depth, player=Character())
+        self.level = Level(depth=self.current_depth, player=self.level.player)

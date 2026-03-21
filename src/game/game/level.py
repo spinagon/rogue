@@ -110,12 +110,7 @@ class Level:
             monster_types, k=n_monsters, weights=[0.5, 0.3, 0.2, 0.1, 0.1]
         )
         for monster_type in to_place:
-            room_id = random.randint(0, 8)
-            if room_id == self.starting_room:
-                room_id = (room_id + 1) % 9
-            room = self.rooms[room_id]
-            x = random.randint(room.x0 + 1, room.x1 - 1)
-            y = random.randint(room.y0 + 1, room.y1 - 1)
+            x, y = self._get_random_cords()
             monsters.append(monster_type(depth=self.depth, x=x, y=y))
         return monsters
 
@@ -133,17 +128,18 @@ class Level:
             weights=[0.1, 0.2, 0.2, 0.5],
         )
         for item_type in to_place:
-            room_id = random.randint(0, 8)
-            if room_id == self.starting_room:
-                room_id = (room_id + 1) % 9
-            room = self.rooms[room_id]
-            x = random.randint(room.x0 + 1, room.x1 - 1)
-            y = random.randint(room.y0 + 1, room.y1 - 1)
             new_items.append(item_type.get_random(level=self.depth))
+            x, y = self._get_random_cords()
             self.place(new_items[-1], x=x, y=y)
         return new_items
 
     def place_stair(self):
+        stair = Stair()
+        x, y = self._get_random_cords()
+        self.place(stair, x=x, y=y)
+        return stair
+
+    def _get_random_cords(self):
         room_id = random.randint(0, 8)
         if room_id == self.starting_room:
             room_id = (room_id + 1) % 9
@@ -153,6 +149,8 @@ class Level:
         stair = Stair()
         self.place(stair, x=x, y=y)
         return stair
+
+
 
     def __getitem__(self, k) -> Tile | GameObject:
         x, y = k
