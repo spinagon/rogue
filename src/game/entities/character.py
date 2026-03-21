@@ -1,3 +1,5 @@
+from dataclasses import dataclass
+
 from api import Tile
 from game.items.item import Item
 from game.items.treasure import Treasure
