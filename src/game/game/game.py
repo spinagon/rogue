@@ -23,13 +23,13 @@ class Game:
     def loop(self):
         self.ui.draw(self.frame())
         while True:
-            self.get_current_game_status()
-            self.do_action_by_game_status()
             event = self.ui.get_input()
             if event == InputEvent.QUIT:
                 break
             if event is not None:
                 self.handle(event)
+                self.get_current_game_status()
+                self.do_action_by_game_status()
                 self.ui.draw(self.frame())
 
     def get_current_game_status(self):

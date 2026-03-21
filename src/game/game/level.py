@@ -54,6 +54,7 @@ class Level:
             self.fight(obj, target)
         if target == Tile.STAIR and obj is self.player:
             self.exited = True
+            obj.move(dx, dy)
 
     def fight(self, attacker: Entity, defender: Entity):
         hit = random.randint(0, attacker.dex + attacker.dex_mod) > random.randint(
