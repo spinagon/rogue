@@ -4,10 +4,12 @@ from api import DrawTile, Frame, InputEvent, Tile
 from .level import Level
 from ..entities.character import Character
 
+
 class GameStatus(Enum):
     ACTIVE = auto()
     WON = auto()
     LOST = auto()
+
 
 class Game:
     MAX_DEPTH: int = 21
@@ -47,9 +49,6 @@ class Game:
             # TODO present loser screen
 
         # TODO add function to save score in high score table
-        self.current_depth = 1
-        self.level = Level(depth=self.current_depth, player=Character())
-        self.game_status = GameStatus.ACTIVE
 
     def handle(self, event: InputEvent):
         match event:
