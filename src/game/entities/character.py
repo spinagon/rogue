@@ -21,9 +21,7 @@ class Character(Entity):
     max_hp: int = 10
     hp: int = max_hp
     str = 3
-    str_bonus = 0
     dex = 3
-    dex_bonus = 0
     weapon = fist
     backpack: Backpack = Backpack()
     name = "player"

@@ -54,9 +54,9 @@ class Frame:
     hp: int
     max_hp: int
     str: int
-    str_bonus: int
+    str_mod: int
     dex: int
-    dex_bonus: int
+    dex_mod: int
     treasure: int
     level: int
     message: str = ""
