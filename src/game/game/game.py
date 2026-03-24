@@ -130,6 +130,7 @@ class Game:
         return tiles
 
     def frame(self) -> Frame:
+        player = self.level.player
         tiles = []
         tiles.extend(self.draw_rooms())
         tiles.extend(self.draw_corridors())
@@ -141,9 +142,13 @@ class Game:
         tiles.append(DrawTile(self.level.stair.x, self.level.stair.y, Tile.STAIR))
         ret = Frame(
             tiles=tiles,
-            hp=self.level.player.hp,
-            max_hp=self.level.player.max_hp,
-            treasure=self.level.player.treasure,
+            hp=player.hp,
+            max_hp=player.max_hp,
+            str=player.str,
+            str_bonus=player.str_bonus,
+            dex=player.dex,
+            dex_bonus=player.dex_bonus,
+            treasure=player.treasure,
             level=self.level.depth,
             message=self.level.message,
         )

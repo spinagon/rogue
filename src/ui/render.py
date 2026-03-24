@@ -58,6 +58,8 @@ def draw_status(win, frame: Frame):
 
     win.addstr(f"Level: {frame.level}\n")
     win.addstr(f"HP: {frame.hp}/{frame.max_hp}\n")
+    win.addstr(f"Str: {frame.str} + {frame.str_bonus}\n")
+    win.addstr(f"Dex: {frame.dex} + {frame.dex_bonus}\n")
     win.addstr(f"Treasure: {frame.treasure}\n")
 
     win.refresh()

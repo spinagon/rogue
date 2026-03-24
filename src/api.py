@@ -53,6 +53,10 @@ class Frame:
     tiles: Iterable[DrawTile]
     hp: int
     max_hp: int
+    str: int
+    str_bonus: int
+    dex: int
+    dex_bonus: int
     treasure: int
     level: int
     message: str = ""
