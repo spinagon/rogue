@@ -12,7 +12,7 @@ class UI:
         self.win = curses.newwin(self.height + 1, self.width, 0, 0)
         render.init(self.win)
 
-    def get_input(self) -> input.InputEvent:
+    def get_input(self) -> input.InputEvent | None:
         key = self.win.getkey()
         return input.read_input(key)
 
