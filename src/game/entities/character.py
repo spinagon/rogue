@@ -22,10 +22,10 @@ class Backpack:
 @dataclass
 class Character(Entity):
     tile: Tile = Tile.CHARACTER
-    max_hp: int = 10
+    max_hp: int = 20
     hp: int = max_hp
-    str = 3
-    dex = 3
+    str = 5
+    dex = 5
     weapon = fist
     backpack: Backpack = Backpack()
     name = "player"
