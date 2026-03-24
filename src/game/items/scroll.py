@@ -1,8 +1,8 @@
 import random
 from dataclasses import dataclass
 
-from game.items.item import Item
 from api import Tile
+from game.items.item import Item
 
 
 @dataclass

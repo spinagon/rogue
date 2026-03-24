@@ -1,6 +1,6 @@
 import random
-
 from dataclasses import dataclass
+
 from game.entities.entity import Entity
 
 

@@ -1,6 +1,7 @@
 from api import Tile
-from game.items import fist
 from game.base import GameObject
+from game.items import fist
+
 
 class Entity(GameObject):
     tile: Tile

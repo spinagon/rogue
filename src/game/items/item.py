@@ -3,6 +3,7 @@ from dataclasses import dataclass
 from api import DisplayItem
 from game.base import GameObject
 
+
 @dataclass
 class Item(GameObject):
     hp: int = 0

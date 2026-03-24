@@ -3,18 +3,18 @@ import random
 
 from api import Tile
 from game.base import GameObject
-from game.entities.character import Character
-from game.entities.monster import Monster
-from game.entities.entity import Entity
-from game.rooms.room import Room
-from game.rooms.corridor import Corridor
 from game.entities import monster_types
-from game.items.item import Item
-from game.items.weapon import Weapon
+from game.entities.character import Character
+from game.entities.entity import Entity
+from game.entities.monster import Monster
+from game.items.elixir import Elixir
 from game.items.food import Food
-from game.items.elexir import Elixir
+from game.items.item import Item
 from game.items.scroll import Scroll
 from game.items.treasure import Treasure
+from game.items.weapon import Weapon
+from game.rooms.corridor import Corridor
+from game.rooms.room import Room
 from game.rooms.stair import Stair
 
 logger = logging.getLogger(__name__)

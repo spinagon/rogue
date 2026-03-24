@@ -1,11 +1,10 @@
 from dataclasses import dataclass
 
 from api import Tile
+from game.entities.entity import Entity
+from game.items import fist
 from game.items.item import Item
 from game.items.treasure import Treasure
-from game.items import fist
-from dataclasses import dataclass
-from game.entities.entity import Entity
 
 
 class Backpack:

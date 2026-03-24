@@ -1,6 +1,8 @@
 import random
-from .room import Room
+
 from . import distance_to_line, in_range
+from .room import Room
+
 
 class Corridor:
     def __init__(self, rooms):

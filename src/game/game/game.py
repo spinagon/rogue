@@ -1,8 +1,9 @@
 from enum import Enum, auto
 
 from api import DrawTile, Frame, InputEvent, Tile
-from .level import Level
-from ..entities.character import Character
+from game.entities.character import Character
+from game.game.level import Level
+from game.items import Elixir, Food, Scroll, Weapon
 
 
 class GameStatus(Enum):

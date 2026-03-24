@@ -1,6 +1,7 @@
 from dataclasses import dataclass
-from game.base import GameObject
+
 from api import Tile
+from game.base import GameObject
 
 
 @dataclass
