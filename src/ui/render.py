@@ -52,12 +52,13 @@ def draw(win, frame: Frame):
         color = TILE_COLORS.get(t.tile, 0)
         win.addstr(t.y, t.x, char, curses.color_pair(color))
 
-    # Draw status bar
-    height, width = win.getmaxyx()
-    status = f"Level: {frame.level} | HP: {frame.hp}/{frame.max_hp} | Treasure: {frame.treasure}"
-    win.addstr(height - 1, 0, status[:width])
-    win.addstr(height - 2, 0, frame.message[:width])
-    win.redrawln(0, 1)
+
+def draw_status(win, frame: Frame):
+    win.erase()
+
+    win.addstr(f"Level: {frame.level}\n")
+    win.addstr(f"HP: {frame.hp}/{frame.max_hp}\n")
+    win.addstr(f"Treasure: {frame.treasure}\n")
 
     win.refresh()
 
