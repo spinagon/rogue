@@ -3,7 +3,7 @@ from enum import Enum, auto
 from api import DrawTile, Frame, InputEvent, Tile
 from game.entities.character import Character
 from game.game.level import Level
-from game.items import Elixir, Food, Scroll, Weapon
+from game.items import Elixir, Food, Scroll, Weapon, fist
 
 
 class GameStatus(Enum):
@@ -77,6 +77,10 @@ class Game:
                     item = next(x for x in backpack.items if id(x) == item_id)
                     player.weapon = item
                     backpack.remove(item)
+                elif item_id == 0:
+                    if player.weapon != fist and backpack.put(player.weapon):
+                        player.weapon = fist
+
             case InputEvent.USE_FOOD:
                 item_id = self.ui.choose_item(
                     [x.display_item() for x in backpack.items if isinstance(x, Food)]
