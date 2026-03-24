@@ -62,9 +62,18 @@ def draw(win, frame: Frame):
 
 
 def choose_item(win, items: list[DisplayItem]):
-    list_box = win.derwin(10, 35, 5, 15)
+    max_name_length = 20
+    top = 5
+    left = 20
+    width = max_name_length + 10
+    height = 9 + 2
+    list_box = win.derwin(height, width, top, left)
     list_box.erase()
     list_box.border()
+    list_box.addstr(0, 3, "item")
+    list_box.addstr(0, max_name_length + 2, "value")
     for i, item in enumerate(items):
-        list_box.addstr(i + 1, 1, item.name)
+        list_box.addstr(i + 1, 1, f"{i + 1:d}")
+        list_box.addstr(i + 1, 3, item.name)
+        list_box.addstr(i + 1, 3 + max_name_length, f"{item.stat:5d}")
     list_box.getkey()
