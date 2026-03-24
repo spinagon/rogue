@@ -82,7 +82,9 @@ class Game:
                 )
                 if item_id:
                     item = next(x for x in backpack.items if id(x) == item_id)
-                    player.hp += item.hp
+                    player.hp = min(
+                        player.hp + item.hp, player.max_hp + player.max_hp_mod
+                    )
                     backpack.remove(item)
             case InputEvent.USE_ELIXIR:
                 item_id = self.ui.choose_item(
