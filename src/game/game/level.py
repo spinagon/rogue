@@ -47,8 +47,8 @@ class Level:
         if target in [Tile.FLOOR, Tile.CORRIDOR]:
             obj.move(dx, dy)
         if isinstance(target, Item) and obj is self.player:
-            self.remove(target)
-            self.player.backpack.items.append(target)
+            if self.player.backpack.put(target):
+                self.remove(target)
             obj.move(dx, dy)
         if isinstance(target, Monster) and obj is self.player:
             self.fight(obj, target)

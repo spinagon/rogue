@@ -14,6 +14,10 @@ class Backpack:
     def remove(self, item):
         self.items.remove(item)
 
+    def put(self, item) -> bool:
+        self.items.append(item)
+        return True
+
 
 @dataclass
 class Character(Entity):
