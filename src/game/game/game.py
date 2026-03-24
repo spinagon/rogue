@@ -87,7 +87,16 @@ class Game:
             case InputEvent.USE_ELIXIR:
                 pass
             case InputEvent.USE_SCROLL:
-                pass
+                item_id = self.ui.choose_item(
+                    [x.display_item() for x in backpack.items if isinstance(x, Scroll)]
+                )
+                if item_id:
+                    item = next(x for x in backpack.items if id(x) == item_id)
+                    player.max_hp += item.max_hp
+                    player.hp += item.max_hp
+                    player.str += item.str_
+                    player.dex += item.dex
+                    backpack.remove(item)
 
     def in_room(self, room, x: int, y: int) -> bool:
         return room.x0 <= x <= room.x1 and room.y0 <= y <= room.y1
