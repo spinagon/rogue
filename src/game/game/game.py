@@ -52,29 +52,30 @@ class Game:
         # TODO add function to save score in high score table
 
     def handle(self, event: InputEvent):
+        level = self.level
+        player = level.player
+        backpack = player.backpack
         match event:
             case InputEvent.MOVE_UP:
-                self.level.move(self.level.player, dy=-1)
-                self.level.end_turn()
+                level.move(player, dy=-1)
+                level.end_turn()
             case InputEvent.MOVE_DOWN:
-                self.level.move(self.level.player, dy=1)
-                self.level.end_turn()
+                level.move(player, dy=1)
+                level.end_turn()
             case InputEvent.MOVE_LEFT:
-                self.level.move(self.level.player, dx=-1)
-                self.level.end_turn()
+                level.move(player, dx=-1)
+                level.end_turn()
             case InputEvent.MOVE_RIGHT:
-                self.level.move(self.level.player, dx=1)
-                self.level.end_turn()
+                level.move(player, dx=1)
+                level.end_turn()
             case InputEvent.USE_WEAPON:
-                item_id = self.ui.choose_weapon(
-                    [x.display_item() for x in self.level.player.backpack.items]
+                item_id = self.ui.choose_item(
+                    [x.display_item() for x in backpack.items if isinstance(x, Weapon)]
                 )
                 if item_id:
-                    item = [
-                        x for x in self.level.player.backpack.items if id(x) == item_id
-                    ]
-                    self.level.player.weapon = item
-                    self.level.player.backpack.remove(item)
+                    item = next(x for x in backpack.items if id(x) == item_id)
+                    player.weapon = item
+                    backpack.remove(item)
             case InputEvent.USE_FOOD:
                 pass
             case InputEvent.USE_ELIXIR:
