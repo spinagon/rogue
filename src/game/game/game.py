@@ -70,7 +70,8 @@ class Game:
                 level.end_turn()
             case InputEvent.USE_WEAPON:
                 item_id = self.ui.choose_item(
-                    [x.display_item() for x in backpack.items if isinstance(x, Weapon)]
+                    [x.display_item() for x in backpack.items if isinstance(x, Weapon)],
+                    weapons=True,
                 )
                 if item_id:
                     item = next(x for x in backpack.items if id(x) == item_id)

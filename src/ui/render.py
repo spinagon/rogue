@@ -69,12 +69,12 @@ def draw_status(win, frame: Frame):
     win.refresh()
 
 
-def choose_item(win, items: Iterable[DisplayItem]):
+def choose_item(win, items: Iterable[DisplayItem], weapons=False):
     max_name_length = 20
     top = 5
     left = 20
     width = max_name_length + 10
-    height = 9 + 2
+    height = 10 + 2
     list_box = win.derwin(height, width, top, left)
     list_box.erase()
     list_box.border()
@@ -84,6 +84,8 @@ def choose_item(win, items: Iterable[DisplayItem]):
         list_box.addstr(i + 1, 1, f"{i + 1:d}")
         list_box.addstr(i + 1, 3, item.name)
         list_box.addstr(i + 1, 3 + max_name_length, f"{item.stat:5d}")
+    if items and weapons:
+        list_box.addstr(i + 2, 1, "0 unequip weapon")
     key = list_box.getkey()
     if "0" <= key <= "9":
         return int(key)

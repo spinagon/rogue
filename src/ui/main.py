@@ -22,8 +22,8 @@ class UI:
         render.draw(self.win, frame)
         render.draw_status(self.sidebar, frame)
 
-    def choose_item(self, items: Iterable[DisplayItem]) -> int | None:
-        key = render.choose_item(self.win, items)
+    def choose_item(self, items: Iterable[DisplayItem], weapons=False) -> int | None:
+        key = render.choose_item(self.win, items, weapons)
         if key == 0:
             return 0
         for i, item in enumerate(items):
