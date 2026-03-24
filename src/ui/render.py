@@ -1,4 +1,5 @@
 import curses
+from typing import Iterable
 
 from api import DisplayItem, Frame, Tile
 
@@ -61,7 +62,7 @@ def draw(win, frame: Frame):
     win.refresh()
 
 
-def choose_item(win, items: list[DisplayItem]):
+def choose_item(win, items: Iterable[DisplayItem]):
     max_name_length = 20
     top = 5
     left = 20
@@ -76,4 +77,6 @@ def choose_item(win, items: list[DisplayItem]):
         list_box.addstr(i + 1, 1, f"{i + 1:d}")
         list_box.addstr(i + 1, 3, item.name)
         list_box.addstr(i + 1, 3 + max_name_length, f"{item.stat:5d}")
-    list_box.getkey()
+    key = list_box.getkey()
+    if "0" <= key <= "9":
+        return int(key)

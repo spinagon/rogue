@@ -19,6 +19,10 @@ class UI:
     def draw(self, frame: Frame):
         render.draw(self.win, frame)
 
-    def choose_weapon(self, weapons: Iterable[DisplayItem]):
-        render.choose_item(self.win, weapons)
-        return 0
+    def choose_item(self, items: Iterable[DisplayItem]) -> int | None:
+        key = render.choose_item(self.win, items)
+        if key == 0:
+            return 0
+        for i, item in enumerate(items):
+            if i + 1 == key:
+                return item.id
