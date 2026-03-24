@@ -52,15 +52,19 @@ def draw(win, frame: Frame):
         color = TILE_COLORS.get(t.tile, 0)
         win.addstr(t.y, t.x, char, curses.color_pair(color))
 
+    h, w = win.getmaxyx()
+    win.addstr(h - 2, 0, frame.message)
+
 
 def draw_status(win, frame: Frame):
     win.erase()
 
     win.addstr(f"Level: {frame.level}\n")
-    win.addstr(f"HP: {frame.hp}/{frame.max_hp}\n")
-    win.addstr(f"Str: {frame.str} + {frame.str_mod}\n")
-    win.addstr(f"Dex: {frame.dex} + {frame.dex_mod}\n")
+    win.addstr(f"HP: {frame.hp}/{frame.max_hp}+{frame.max_hp_mod}\n")
+    win.addstr(f"Str: {frame.str}+{frame.str_mod}\n")
+    win.addstr(f"Dex: {frame.dex}+{frame.dex_mod}\n")
     win.addstr(f"Treasure: {frame.treasure}\n")
+    win.addstr(f"Weapon: {frame.weapon}\n")
 
     win.refresh()
 

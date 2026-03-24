@@ -85,7 +85,16 @@ class Game:
                     player.hp += item.hp
                     backpack.remove(item)
             case InputEvent.USE_ELIXIR:
-                pass
+                item_id = self.ui.choose_item(
+                    [x.display_item() for x in backpack.items if isinstance(x, Elixir)]
+                )
+                if item_id:
+                    item = next(x for x in backpack.items if id(x) == item_id)
+                    player.max_hp_mod += item.max_hp
+                    player.hp += item.max_hp
+                    player.str_mod += item.str_
+                    player.dex_mod += item.dex
+                    backpack.remove(item)
             case InputEvent.USE_SCROLL:
                 item_id = self.ui.choose_item(
                     [x.display_item() for x in backpack.items if isinstance(x, Scroll)]
@@ -138,12 +147,13 @@ class Game:
             DrawTile(obj.x, obj.y, obj.tile)
             for obj in self.level.monsters + self.level.items
         )
-        tiles.append(DrawTile(self.level.player.x, self.level.player.y, Tile.CHARACTER))
+        tiles.append(DrawTile(player.x, player.y, Tile.CHARACTER))
         tiles.append(DrawTile(self.level.stair.x, self.level.stair.y, Tile.STAIR))
         ret = Frame(
             tiles=tiles,
             hp=player.hp,
             max_hp=player.max_hp,
+            max_hp_mod=player.max_hp_mod,
             str=player.str,
             str_mod=player.str_mod,
             dex=player.dex,
@@ -151,6 +161,7 @@ class Game:
             treasure=player.treasure,
             level=self.level.depth,
             message=self.level.message,
+            weapon=player.weapon.name,
         )
         self.level.message = ""
         return ret
@@ -158,3 +169,8 @@ class Game:
     def advance_depth(self):
         self.current_depth += 1
         self.level = Level(depth=self.current_depth, player=self.level.player)
+        player = self.level.player
+        player.hp = max(1, player.hp - player.max_hp_mod)
+        player.max_hp_mod = 0
+        player.str_mod = 0
+        player.dex_mod = 0

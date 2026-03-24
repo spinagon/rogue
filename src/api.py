@@ -53,6 +53,7 @@ class Frame:
     tiles: Iterable[DrawTile]
     hp: int
     max_hp: int
+    max_hp_mod: int
     str: int
     str_mod: int
     dex: int
@@ -60,6 +61,7 @@ class Frame:
     treasure: int
     level: int
     message: str = ""
+    weapon: str = ""
 
 
 @dataclass(frozen=True)
