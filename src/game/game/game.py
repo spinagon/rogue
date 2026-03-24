@@ -77,7 +77,13 @@ class Game:
                     player.weapon = item
                     backpack.remove(item)
             case InputEvent.USE_FOOD:
-                pass
+                item_id = self.ui.choose_item(
+                    [x.display_item() for x in backpack.items if isinstance(x, Food)]
+                )
+                if item_id:
+                    item = next(x for x in backpack.items if id(x) == item_id)
+                    player.hp += item.hp
+                    backpack.remove(item)
             case InputEvent.USE_ELIXIR:
                 pass
             case InputEvent.USE_SCROLL:
